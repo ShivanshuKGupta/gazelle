@@ -3,7 +3,6 @@ import 'dart:io';
 import '../../commons/consts.dart';
 import '../../commons/functions/get_latest_package_version.dart';
 import '../../commons/functions/snake_to_pascal_case.dart';
-import '../../commons/functions/version.dart';
 
 String _getPubspecTemplate(String gazelleSerializationVersion) => """
 name: models 

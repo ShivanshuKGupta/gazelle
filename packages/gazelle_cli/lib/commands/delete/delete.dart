@@ -1,8 +1,11 @@
 import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:cli_spin/cli_spin.dart';
+
+import '../../commons/entities/input_icons.dart';
 import '../../commons/entities/project_configuration.dart';
-import '../../commons/functions/confirmation.dart';
+import '../../commons/functions/get_input.dart';
 import '../../commons/functions/load_project_configuration.dart';
 import 'delete_project.dart';
 
@@ -43,9 +46,15 @@ class DeleteCommand extends Command {
       spinner.fail(e.toString());
       exit(2);
     }
-    final answer = getConfirmation(
-        '\nAre you sure you want to delete the project ${projectConfiguration.name}');
-    if (!answer) {
+    final answer = getInput(
+      '\nAre you sure you want to delete the project ${projectConfiguration.name}? (y/n)',
+      onValidated: (input) =>
+          ['yes', 'y'].contains(input.toLowerCase()) ? 'y' : 'n',
+      leading: InputIcons.warning,
+      trailing: InputIcons.none,
+      defaultValue: 'n',
+    );
+    if (answer == 'y') {
       spinner.fail("Project deletion aborted.");
       return;
     }

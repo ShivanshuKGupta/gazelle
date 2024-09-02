@@ -4,6 +4,7 @@ import 'package:args/command_runner.dart';
 import 'package:cli_spin/cli_spin.dart';
 import 'package:path/path.dart';
 
+import '../../commons/entities/input_icons.dart';
 import '../../commons/functions/load_project_configuration.dart';
 import 'analyze_entities.dart';
 import 'generate_client.dart';
@@ -62,7 +63,7 @@ class _CodegenModelsCommand extends Command {
       );
 
       spinner.success(
-        "Models generated 🚀\nAdd ${models.modelProvider.path.split("/").last} to your GazelleApp!",
+        "Models generated ${InputIcons.rocket}${InputIcons.rocket}\nAdd ${models.modelProvider.path.split("/").last} to your GazelleApp!",
       );
     } on LoadProjectConfigurationGazelleNotFoundError catch (e) {
       spinner.fail(e.errorMessage);
@@ -114,7 +115,7 @@ class _CodegenClientCommand extends Command {
       );
 
       spinner.success(
-          "Client generated 🚀\nImport the client in your Dart frontend application!");
+          "Client generated ${InputIcons.rocket}\nImport the client in your Dart frontend application!");
     } on LoadProjectConfigurationGazelleNotFoundError catch (e) {
       spinner.fail(e.errorMessage);
       exit(e.errorCode);

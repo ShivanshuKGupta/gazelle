@@ -5,7 +5,6 @@ import 'package:dart_style/dart_style.dart';
 import '../../commons/consts.dart';
 import '../../commons/functions/get_latest_package_version.dart';
 import '../../commons/functions/snake_to_pascal_case.dart';
-import '../../commons/functions/version.dart';
 import 'create_route.dart';
 
 const _gitignore = """

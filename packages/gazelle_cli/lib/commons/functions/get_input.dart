@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import '../entities/input_icons.dart';
+
 /// Gets user input from the command line.
 String getInput(
   /// The message to display to the user.
@@ -17,11 +19,17 @@ String getInput(
   /// This function is called just before returning the input.
   /// You can use this function to modify the input before returning it.
   String Function(String input)? onValidated,
+
+  /// The leading icon to display before the message.
+  String leading = InputIcons.star,
+
+  /// The trailing icon to display after the message.
+  String trailing = InputIcons.rocket,
 }) {
   String? input;
   while (true) {
     stdout.write(
-        "✨ $message 🚀 ${defaultValue != null ? "($defaultValue)" : ""}: ");
+        "${leading.isEmpty ? '' : '$leading '}$message ${trailing.isEmpty ? '' : '$trailing '}${defaultValue != null ? "($defaultValue)" : ""}: ");
     input = stdin.readLineSync();
     if (input == null) {
       print("Operation cancelled by the user.");
@@ -31,12 +39,11 @@ String getInput(
       input = defaultValue;
     }
     String? validationError = validator?.call(input);
-    if (input == "" || validationError != null) {
-      stdout.writeln("⚠  ${validationError ?? onEmpty}");
+    if (input.isEmpty || validationError != null) {
+      stdout.writeln("${InputIcons.warning}  ${validationError ?? onEmpty}");
     } else {
       break;
     }
   }
-  input = onValidated?.call(input) ?? input;
-  return input;
+  return onValidated?.call(input) ?? input;
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import '../../commons/consts.dart';
 import '../../commons/entities/stdin_broadcast.dart';
-import '../../commons/functions/version.dart';
 
 String _getPubspecTemplate(String projectName) => """
 name: temp_project

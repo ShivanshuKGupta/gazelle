@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:cli_spin/cli_spin.dart';
 
+import '../../commons/entities/input_icons.dart';
 import '../../commons/functions/get_input.dart';
 import '../../commons/functions/load_project_configuration.dart';
 import 'create_handler.dart';
@@ -44,15 +45,13 @@ class _CreateProjectCommand extends Command {
 
   @override
   void run() async {
-    stdout.writeln("✨ What would you like to name your new project? 🚀");
-    String? projectName = stdin.readLineSync();
-    while (projectName == null || projectName == "") {
-      stdout.writeln("⚠ Please provide a name for your project to proceed:");
-      projectName = stdin.readLineSync();
-    }
-    stdout.writeln();
+    final projectName = getInput(
+      "What would you like to name your new project?",
+      onEmpty: "Please provide a name for your project to proceed!",
+      onValidated: (input) =>
+          input.replaceAll(RegExp(r'\s+'), "_").toLowerCase(),
+    );
 
-    projectName = projectName.replaceAll(RegExp(r'\s+'), "_").toLowerCase();
     final fullstack = argResults?.flag("flutter") != null ? true : false;
 
     final spinner = CliSpin(
@@ -68,7 +67,7 @@ class _CreateProjectCommand extends Command {
       );
 
       spinner.success(
-        "$projectName project created 🚀\n💡To navigate to your project run \"cd $projectName\"\n💡Then, use \"gazelle run\" to execute it!",
+        "$projectName project created ${InputIcons.rocket}\n💡To navigate to your project run \"cd $projectName\"\n💡Then, use \"gazelle run\" to execute it!",
       );
     } on CreateProjectError catch (e) {
       spinner.fail(e.message);
@@ -96,15 +95,12 @@ class _CreateRouteCommand extends Command {
     CliSpin spinner = CliSpin();
     try {
       await loadProjectConfiguration();
-      stdout.writeln("✨ What would you like to name your new route? 🚀");
-      String? routeName = stdin.readLineSync();
-      while (routeName == null || routeName == "") {
-        stdout.writeln("⚠ Please provide a name for your route to proceed:");
-        routeName = stdin.readLineSync();
-      }
-      stdout.writeln();
-
-      routeName = routeName.replaceAll(RegExp(r'\s+'), "_").toLowerCase();
+      final routeName = getInput(
+        "What would you like to name your new route?",
+        onEmpty: "Please provide a name for your route to proceed!",
+        onValidated: (input) =>
+            input.replaceAll(RegExp(r'\s+'), "_").toLowerCase(),
+      );
 
       spinner = CliSpin(
         text: "Creating $routeName route...",
@@ -120,7 +116,7 @@ class _CreateRouteCommand extends Command {
       );
 
       spinner.success(
-        "$routeName route created 🚀",
+        "$routeName route created ${InputIcons.rocket}",
       );
     } on LoadProjectConfigurationGazelleNotFoundError catch (e) {
       spinner.fail(e.errorMessage);
@@ -198,7 +194,7 @@ class _CreatHandlerCommand extends Command {
         path: path,
       );
 
-      spinner.success("$handlerName handler created 🚀");
+      spinner.success("$handlerName handler created ${InputIcons.rocket}");
     } on LoadProjectConfigurationGazelleNotFoundError catch (e) {
       spinner.fail(e.errorMessage);
       exit(e.errorCode);

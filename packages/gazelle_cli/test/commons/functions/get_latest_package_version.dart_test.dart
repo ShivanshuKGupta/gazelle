@@ -13,9 +13,9 @@ void main() {
                 (response) => jsonDecode(response.body)['latest']['version'],
               );
 
-      final version = await getLatestPackageVersion('http');
+      final expectedVersion = await getLatestPackageVersion('http');
 
-      expect(version, equals(originalVersion));
+      expect(expectedVersion, equals(originalVersion));
     });
   });
 }
